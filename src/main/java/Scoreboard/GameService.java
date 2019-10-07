@@ -71,8 +71,33 @@ public class GameService {
                         seconds = 0;
                     }
                 } else if (period == 5) {
-                    break;
-                    // Shoot-out
+                    int homeShootoutScore = 0, awayShootoutScore = 0, shootoutRound = 1;
+                    System.out.println("Shootout round " + shootoutRound);
+                    while (shootoutRound < 4 || homeShootoutScore != awayShootoutScore) {
+                        if (RandomService.decide(3194)) {
+                            homeShootOutScore++;
+                            System.out.println("Home scores");
+                        } else {
+                            System.out.println("Home misses");
+                        }
+                        if (rand.nextInt(10000) < 3194) {
+                            awayShootOutScore++;
+                            System.out.println("Away scores");
+                        } else {
+                            System.out.println("Away misses");
+                        }
+                        System.out.println("HOME: " + homeShootoutScore + " AWAY: " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound);
+                        if (shootoutRound >= 3 && homeShootoutScore != awayShootoutScore) {
+                            break;
+                        }
+                        shootoutRound++;
+                    }
+
+                    if (homeShootoutScore > awayShootoutScore) {
+                        home_score++;
+                    } else {
+                        away_score++;
+                    }
                 }
             }
 
