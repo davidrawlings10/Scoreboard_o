@@ -1,11 +1,9 @@
-package MySqlTest.MySqlTest;
+package Scoreboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class GameService {

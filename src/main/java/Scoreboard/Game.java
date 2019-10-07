@@ -1,4 +1,4 @@
-package MySqlTest.MySqlTest;
+package Scoreboard;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
