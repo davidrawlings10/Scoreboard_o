@@ -18,16 +18,16 @@ public class GameService {
         game.setAwayTeamId(away_team_id);
         game.setHomeScore(3);
         game.setAwayScore(2);
-        userRepository.save(game);
+        //userRepository.save(game);
 
-        return "SAVED";
+        //return "SAVED";
 
-        /*switch (sport) {
-            case HOCKEY:
+        //switch (sport) {
+        //    case HOCKEY:
                 return playHockeyV2(home_team_id, away_team_id, season_id);
-            default:
-                return "";
-        }*/
+        //    default:
+        //        return "";
+        //}
     }
 
     private void playHockeyV1(long home_team_id, long away_team_id, long season_id) {
@@ -75,13 +75,13 @@ public class GameService {
                     System.out.println("Shootout round " + shootoutRound);
                     while (shootoutRound < 4 || homeShootoutScore != awayShootoutScore) {
                         if (RandomService.decide(3194)) {
-                            homeShootOutScore++;
+                            homeShootoutScore++;
                             System.out.println("Home scores");
                         } else {
                             System.out.println("Home misses");
                         }
                         if (rand.nextInt(10000) < 3194) {
-                            awayShootOutScore++;
+                            awayShootoutScore++;
                             System.out.println("Away scores");
                         } else {
                             System.out.println("Away misses");
@@ -110,12 +110,12 @@ public class GameService {
             home_rand = rand.nextInt(RAND);
             away_rand = rand.nextInt(RAND);
             if (home_rand == 0) {
-                home_score++;
+                //home_score++;
                 if (period == 4)
                     break;
             }
             if (away_rand == 0) {
-                away_score++;
+                //away_score++;
                 if (period == 4)
                     break;
             }
@@ -123,12 +123,12 @@ public class GameService {
             //System.out.println(" ~"+home_rand + " ~"+away_rand);
         }
 
-        Game game = new Game();
+        /*Game game = new Game();
         game.setHomeTeamId(home_team_id);
         game.setAwayTeamId(away_team_id);
         game.setHomeScore(home_score);
         game.setAwayScore(away_score);
-        userRepository.save(game);
+        userRepository.save(game);*/
 
         return "HOME: " + home_score + " AWAY: " + away_score + " PERIOD: " + period + " " + minutes + ":" + seconds;
 
