@@ -15,7 +15,6 @@ public class GameController {
     @GetMapping(path="/play") // Map ONLY POST Requests
     public @ResponseBody String addNewUser (/*@RequestParam String name
             , @RequestParam String email*/) throws InterruptedException {
-        System.out.println("HERE");
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
@@ -24,7 +23,9 @@ public class GameController {
         n.setAwayTeamId(2);
         n.setHomeScore(5);
         n.setAwayScore(0);
+        System.out.println("CONTROLLER:"+userRepository);
         userRepository.save(n);
+        //return "SAVED in controller";
 
         GameService gameService = new GameService();
         return gameService.playGame(1, 2, Sport.HOCKEY, null);
