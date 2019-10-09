@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class GameService {
@@ -43,14 +44,20 @@ public class GameService {
     }
 
     private String playHockeyV2(int home_team_id, int away_team_id, Integer season_id) throws InterruptedException {
-        Random rand = new Random();
-
         int home_score = 0, away_score = 0, period = 1, minutes = 20, seconds = 0;
 
         while (true) {
 
             //TimeUnit.SECONDS.sleep(1);
-            System.out.println("HOME: " + home_score + " AWAY: " + away_score + " PERIOD: " + period + " " + minutes + ":" + seconds);
+
+            if (period == 5) {
+                if (shootout()) {
+                    home_score++;
+                } else {
+                    away_score++;
+                }
+                break;
+            }
 
             // average goals per period .869
             // .869 / 20 = .04345 average goals per minutes
@@ -67,77 +74,59 @@ public class GameService {
                     break;
             }
 
-            /*if (seconds == 0) {
-                seconds = 60;
-                if (minutes == 0) {
-                    minutes = 20;
-                }
-                minutes;
-            }
-            seconds--;*/
-
+            seconds--;
 
             if (seconds == -1) {
                 minutes--;
                 seconds = 59;
-            }
+            } else if (seconds == 0 && minutes == 0) {
+                System.out.println("HOME: " + home_score + " AWAY: " + away_score + " PERIOD: " + period + " " + minutes + ":" + seconds);
+                TimeUnit.SECONDS.sleep(1);
 
-            if (minutes == -1) {
-                period++;
-                if (period < 4) {
-                    minutes = 20;
-                    seconds = 0;
-                } else if (period == 4) {
-                    if (home_score != away_score) {
-                        break;
-                    } else {
-                        minutes = 5;
-                        seconds = 0;
-                    }
-                } else if (period == 5) {
-                    int homeShootoutScore = 0, awayShootoutScore = 0, shootoutRound = 1;
-                    System.out.println("Shootout round " + shootoutRound);
-                    while (shootoutRound < 4 || homeShootoutScore != awayShootoutScore) {
-                        if (RandomService.decide(31.94)) {
-                            homeShootoutScore++;
-                            System.out.println("Home scores");
-                        } else {
-                            System.out.println("Home misses");
-                        }
-                        if (RandomService.decide(31.94)) {
-                            awayShootoutScore++;
-                            System.out.println("Away scores");
-                        } else {
-                            System.out.println("Away misses");
-                        }
-                        System.out.println("HOME: " + homeShootoutScore + " AWAY: " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound);
-                        if (shootoutRound >= 3 && homeShootoutScore != awayShootoutScore) {
-                            break;
-                        }
-                        shootoutRound++;
-                    }
-
-                    if (homeShootoutScore > awayShootoutScore) {
-                        home_score++;
-                    } else {
-                        away_score++;
-                    }
+                if (period == 3 && home_score != away_score) {
                     break;
                 }
-            }
 
-            //System.out.println(" ~"+home_rand + " ~"+away_rand);
+                period++;
+                minutes = period == 4 ? 5 : 20;
+                seconds = 0;
+            }
         }
 
-        /*Game game = new Game();
+        Game game = new Game();
         game.setHomeTeamId(home_team_id);
         game.setAwayTeamId(away_team_id);
         game.setHomeScore(home_score);
         game.setAwayScore(away_score);
-        userRepository.save(game);*/
+        userRepository.save(game);
 
         return "HOME: " + home_score + " AWAY: " + away_score + " PERIOD: " + period + " " + minutes + ":" + seconds;
 
-        //insertGame(home_team_id, away_team_id, home_score, away_score, season_id);
+    }
+
+    private boolean shootout() {
+        int homeShootoutScore = 0, awayShootoutScore = 0, shootoutRound = 1;
+        System.out.println("Shootout round " + shootoutRound);
+        while (shootoutRound < 4 || homeShootoutScore != awayShootoutScore) {
+            if (RandomService.decide(31.94)) {
+                homeShootoutScore++;
+                System.out.println("Home scores");
+            } else {
+                System.out.println("Home misses");
+            }
+            if (RandomService.decide(31.94)) {
+                awayShootoutScore++;
+                System.out.println("Away scores");
+            } else {
+                System.out.println("Away misses");
+            }
+            System.out.println("HOME: " + homeShootoutScore + " AWAY: " + awayShootoutScore + " SHOOTOUT ROUND: " + shootoutRound);
+            if (shootoutRound >= 3 && homeShootoutScore != awayShootoutScore) {
+                break;
+            }
+            shootoutRound++;
+        }
+
+        return homeShootoutScore > awayShootoutScore;
     }
 }
