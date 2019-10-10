@@ -14,7 +14,15 @@ public class Game {
     private Integer awayTeamId;
     private Integer homeScore;
     private Integer awayScore;
+    private Integer seasonId;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getHomeTeamId() {
         return homeTeamId;
@@ -46,5 +54,13 @@ public class Game {
 
     public void setAwayScore(Integer awayScore) {
         this.awayScore = awayScore;
+    }
+
+    public Integer getSeasonId() {
+        return seasonId;
+    }
+
+    public void setSeasonId(Integer seasonId) {
+        this.seasonId = seasonId;
     }
 }

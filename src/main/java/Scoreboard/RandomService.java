@@ -10,7 +10,7 @@ public class RandomService {
         final int MULTIPLIER = 10000000;
         int weightInt = (int) (weight * MULTIPLIER);
         int random = rand.nextInt(MULTIPLIER * 100);
-        System.out.println("random: "+random + ", weight: "+weight);
+        //System.out.println("random: "+random + ", weight: "+weight);
         return random < weightInt;
     }
 }
